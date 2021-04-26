@@ -1,4 +1,3 @@
-from fastapi.testclient import TestClient
 from testlambda1 import main
 import trio
 
