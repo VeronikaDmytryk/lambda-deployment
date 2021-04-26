@@ -43,8 +43,8 @@ jobs:
       # Step 7
       - name: Create Zipfile archive of Dependencies
         run: |
-          cd ./backend/lambda1/app/venv/lib/python3.7/site-packages
-          zip -r9s ../../../..../../../api.zip .
+          cd ./backend/lambda1/venv/lib/python3.7/site-packages
+          zip -r9s ../../../../../../api.zip .
       
       # Step 8
       - name: Add App to Zip file
