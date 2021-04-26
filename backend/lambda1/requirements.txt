@@ -1,0 +1,7 @@
+pytest
+bson
+requests
+pyjwt
+pyjwt[crypto]
+pytest-trio
+trio
