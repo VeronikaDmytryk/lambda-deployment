@@ -39,7 +39,7 @@ jobs:
         if: steps.cache-venv.outputs.cache-hit != 'true'
       # Step 6     
       - name: Activate venv and Run Test        
-        run: ./backend/lambda1 venv/bin/activate && ./backend/lambda1/app pytest
+        run: cd ./backend/lambda1 && . venv/bin/activate && cd ./app && pytest
       
       # Step 7
       - name: Create Zipfile archive of Dependencies
