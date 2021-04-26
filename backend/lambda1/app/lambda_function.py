@@ -1,9 +1,8 @@
 import jwt
 import bson
 import json
-import trio
 
-async def lambda_handler(event, context):
+def lambda_handler(event, context):
 	# Print received event
 	print("Received event: " + json.dumps(event, indent=2))
 	
