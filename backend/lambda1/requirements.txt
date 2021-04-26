@@ -3,3 +3,4 @@ bson
 requests
 pyjwt
 pyjwt[crypto]
+cryptography
