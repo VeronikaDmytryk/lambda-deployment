@@ -19,11 +19,10 @@ def lambda_handler(event, context):
 			# Decode the token
 			payload = decodeToken(token, algorithm, aud)
 			print("Success")
-			return "here"
-#			return {
-#			    'statusCode': 200,
-#			    'body': json.dumps(payload, default=json_unknown_type_handler)
-#			}
+			return {
+			    'statusCode': 200,
+			    'body': json.dumps(payload, default=json_unknown_type_handler)
+			}
 		except Exception as e:
 			print("Exception: ", e)
 			response_body = {
