@@ -48,7 +48,7 @@ jobs:
       
       # Step 8
       - name: Add App to Zip file
-        run: cd .backend/lambda1/app && zip -g ../../../lambda1.zip -r .
+        run: cd ./backend/lambda1/app && zip -g ../../../lambda1.zip -r .
       
       # Step 9
       - name: Upload zip file artifact
