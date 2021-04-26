@@ -79,19 +79,3 @@ def json_unknown_type_handler(x):
     raise TypeError("Unknown datetime type")
 
 
-# please run these commands before the local testing 
-# to install needed libraries (you might need to use pip3 instead if you have python3 installed)
-# pip -t "path_to_current_folder" pyjwt
-# pip -t "path_to_current_folder" pyjwt[crypto]
-# pip -t "path_to_current_folder" bson
-
-# UNCOMMENT FFOLLOWING CODE FOR LOCAL TESTING
-
-def main(token):
-    print("hello from local machine")
-    return lambda_handler({"httpMethod":"GET", "queryStringParameters" : {
-        "token": token
-    }}, None)
-
-if __name__ == "__main__":
-    main()
