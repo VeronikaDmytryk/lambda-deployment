@@ -44,11 +44,11 @@ jobs:
       - name: Create Zipfile archive of Dependencies
         run: |
           cd ./backend/lambda1/venv/lib/python3.7/site-packages
-          zip -r9s ../../../../../../api.zip .
+          zip -r9 ../../../../../../lambda1.zip .
       
       # Step 8
       - name: Add App to Zip file
-        run: cd .backend/lambda1/app && zip -g ../lambda1.zip -r .
+        run: cd .backend/lambda1/app && zip -g ../../../lambda1.zip -r .
       
       # Step 9
       - name: Upload zip file artifact
