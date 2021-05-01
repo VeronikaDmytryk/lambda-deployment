@@ -7,13 +7,17 @@ from datetime import datetime
 from pymongo import MongoClient
 from pymongo.collection import ReturnDocument
 
-# Set Lambda Client to connect with other lambdas internally
+# Create Lambda Client to connect with other lambdas internally
 #lam = boto3.client('lambda')
 
-# Set Mongo Client
+# Create Mongo Client
 client = MongoClient('mongodb+srv://reviewtrends:Vnso8hRWCI3wg077@cluster0.ujh40.mongodb.net/reviewTrendsDB?retryWrites=true&w=majority')
 
-# Set Database
+# Create SQS client
+sqs = boto3.client('sqs')
+queue = sqs.get_queue_by_name(QueueName='test')
+
+# Create Database
 db = client.reviewTrendsDB
 # db = client[os.environ["DB_NAME"]]
 
@@ -39,6 +43,15 @@ def lambda_handler(event, context):
 #	for document in response_body:
 #		if 'lastUpdated' in document.keys() and (todaysDate - document["lastUpdated"]).days >= 7:
 			# push to queue
+			# response = queue.send_message(
+			# 	DelaySeconds=0,
+			# 	MessageAttributes={
+			# 		'hotelId': document["hotelId"],
+			# 		'lastUpdated': document["lastUpdated"]
+			# 	}
+			# )
+			# print(response.get('Failed'))
+			
 			
 			
 	return {
