@@ -3,8 +3,8 @@ name: CI/CD Pipeline
 on:
   push:
     paths:
-	-'backend/validateUserToken/**'
-
+    - 'backend/validateUserToken/**'
+    
     branches: [ main ]
 
 
