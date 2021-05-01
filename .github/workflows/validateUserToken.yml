@@ -2,6 +2,9 @@ name: CI/CD Pipeline
 
 on:
   push:
+    paths:
+        - '!Backend/scheduleDBupdate/**'
+
     branches: [ main ]
 
 
@@ -34,20 +37,20 @@ jobs:
             ${{ runner.os }}-venv-
       # Step 5
       - name: Activate and Install Depencies into Virtual env
-        run: cd ./backend/lambda1 && python -m venv venv && source venv/bin/activate && pip3 install -r requirements.txt
+        run: cd ./backend/validateUserToken && python -m venv venv && source venv/bin/activate && pip3 install -r requirements.txt
       # Step 6     
       - name: Activate venv and Run Test        
-        run: cd ./backend/lambda1 && . venv/bin/activate && cd ./app && pytest
+        run: cd ./backend/validateUserToken && . venv/bin/activate && cd ./app && pytest
       
       # Step 7
       - name: Create Zipfile archive of Dependencies
         run: |
-          cd ./backend/lambda1/venv/lib/python3.7/site-packages
+          cd ./backend/validateUserToken/venv/lib/python3.7/site-packages
           zip -r9 ../../../../../../validateToken.zip .
       
       # Step 8
       - name: Add App to Zip file
-        run: cd ./backend/lambda1/app && zip -g ../../../validateToken.zip -r .
+        run: cd ./backend/validateUserToken/app && zip -g ../../../validateToken.zip -r .
       
       # Step 9
       - name: Upload zip file artifact
@@ -71,7 +74,7 @@ jobs:
           AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
       # Step 2
-      - name: Download Lambda lambda1.zip
+      - name: Download Lambda validateToken.zip
         uses: actions/download-artifact@v2
         with:
           name: validateToken

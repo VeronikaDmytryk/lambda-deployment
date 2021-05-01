@@ -4,3 +4,4 @@ requests
 pymongo
 datetime
 dnspython
+anyio
