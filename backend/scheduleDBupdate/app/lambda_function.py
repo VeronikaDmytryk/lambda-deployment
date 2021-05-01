@@ -7,7 +7,7 @@ from datetime import datetime
 from pymongo import MongoClient
 from pymongo.collection import ReturnDocument
 
-# Set Lambda Client
+# Set Lambda Client to connect with other lambdas internally
 #lam = boto3.client('lambda')
 
 # Set Mongo Client
