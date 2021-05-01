@@ -14,8 +14,8 @@ from pymongo.collection import ReturnDocument
 client = MongoClient('mongodb+srv://reviewtrends:Vnso8hRWCI3wg077@cluster0.ujh40.mongodb.net/reviewTrendsDB?retryWrites=true&w=majority')
 
 # Create SQS client
-sqs = boto3.client('sqs')
-queue = sqs.get_queue_by_name(QueueName='test')
+# sqs = boto3.client('sqs')
+# queue = sqs.get_queue_by_name(QueueName='test')
 
 # Create Database
 db = client.reviewTrendsDB
@@ -63,9 +63,9 @@ def sendProcessingRequest(hotelId, lastUpdated):
         payload['hotelId'] = hotelId
         payload['lastUpdated'] = lastUpdated
         print(payload)
-        #lam.invoke(FunctionName='updateDB',
-        #        InvocationType='Event',
-        #        Payload=json.dumps(payload))
+        lam.invoke(FunctionName='updateDB',
+               InvocationType='Event',
+               Payload=json.dumps(payload))
         
 #def main():
 #	print("hello from local machine")
