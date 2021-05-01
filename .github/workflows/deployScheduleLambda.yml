@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     paths:
-        - 'Backend/scheduleDBupdate/**'
+    - 'backend/scheduleDBupdate/**'
 
     branches: [ main ]
 
