@@ -40,7 +40,7 @@ jobs:
         run: cd ./backend/scheduleDBupdate && python -m venv venv && source venv/bin/activate && pip3 install -r requirements.txt
       # Step 6     
       - name: Activate venv and Run Test        
-        run: cd ./backend/scheduleDBupdate && . venv/bin/activate && cd ./app && pytest
+        run: cd ./backend/scheduleDBupdate && . venv/bin/activate && cd ./app
       
       # Step 7
       - name: Create Zipfile archive of Dependencies
