@@ -3,3 +3,4 @@ bson
 requests
 pymongo
 datetime
+dnspython
