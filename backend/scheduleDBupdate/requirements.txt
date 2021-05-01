@@ -1,6 +1,7 @@
 pytest
 bson
 requests
+boto3
 pymongo
 datetime
 dnspython

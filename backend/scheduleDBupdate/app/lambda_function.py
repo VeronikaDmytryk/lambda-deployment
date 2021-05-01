@@ -2,13 +2,13 @@ import json
 import bson
 import requests
 import urllib
-#import boto3
+import boto3
 from datetime import datetime
 from pymongo import MongoClient
 from pymongo.collection import ReturnDocument
 
 # Create Lambda Client to connect with other lambdas internally
-#lam = boto3.client('lambda')
+lam = boto3.client('lambda')
 
 # Create Mongo Client
 client = MongoClient('mongodb+srv://reviewtrends:Vnso8hRWCI3wg077@cluster0.ujh40.mongodb.net/reviewTrendsDB?retryWrites=true&w=majority')
