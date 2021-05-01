@@ -29,32 +29,32 @@ jobs:
         id: cache-venv
         with:
           path: venv
-          key: ${{ runner.os }}-venv-${{ hashFiles('**/backend/lambda1/requirements*.txt') }}
+          key: ${{ runner.os }}-venv-${{ hashFiles('**/backend/scheduleDBupdate/requirements*.txt') }}
           restore-keys: |
             ${{ runner.os }}-venv-
       # Step 5
       - name: Activate and Install Depencies into Virtual env
-        run: cd ./backend/lambda1 && python -m venv venv && source venv/bin/activate && pip3 install -r requirements.txt
+        run: cd ./backend/scheduleDBupdate && python -m venv venv && source venv/bin/activate && pip3 install -r requirements.txt
       # Step 6     
       - name: Activate venv and Run Test        
-        run: cd ./backend/lambda1 && . venv/bin/activate && cd ./app && pytest
+        run: cd ./backend/scheduleDBupdate && . venv/bin/activate && cd ./app && pytest
       
       # Step 7
       - name: Create Zipfile archive of Dependencies
         run: |
-          cd ./backend/lambda1/venv/lib/python3.7/site-packages
+          cd ./backend/scheduleDBupdate/venv/lib/python3.7/site-packages
           zip -r9 ../../../../../../validateToken.zip .
       
       # Step 8
       - name: Add App to Zip file
-        run: cd ./backend/lambda1/app && zip -g ../../../validateToken.zip -r .
+        run: cd ./backend/scheduleDBupdate/app && zip -g ../../../scheduleDBupdate.zip -r .
       
       # Step 9
       - name: Upload zip file artifact
         uses: actions/upload-artifact@v2
         with:
-          name: validateToken
-          path: validateToken.zip
+          name: scheduleDBupdate
+          path: scheduleDBupdate.zip
   continuous-deployment:
     runs-on: ubuntu-latest
     needs: [continuous-integration]
@@ -71,13 +71,13 @@ jobs:
           AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
       # Step 2
-      - name: Download Lambda lambda1.zip
+      - name: Download Lambda scheduleDBupdate.zip
         uses: actions/download-artifact@v2
         with:
-          name: validateToken
+          name: scheduleDBupdate
       # Step 3
       - name: Upload to S3
-        run: aws s3 cp validateToken.zip s3://lambdadeploymenttest/validateToken.zip
+        run: aws s3 cp scheduleDBupdate.zip s3://schedule-db-update/scheduleDBupdate.zip
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -85,7 +85,7 @@ jobs:
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
       # Step 4
       - name: Deploy new Lambda
-        run: aws lambda update-function-code --function-name validate-test-lambda --s3-bucket lambdadeploymenttest --s3-key validateToken.zip
+        run: aws lambda update-function-code --function-name scheduleDBupdate --s3-bucket schedule-db-update --s3-key scheduleDBupdate.zip
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
