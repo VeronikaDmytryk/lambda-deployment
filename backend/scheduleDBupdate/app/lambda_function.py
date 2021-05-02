@@ -6,12 +6,17 @@ import boto3
 from datetime import datetime
 from pymongo import MongoClient
 from pymongo.collection import ReturnDocument
+from environs import Env
+
+# Useful for hiding env variables which would be understood by github
+env = Env()
+env.read_env()  # read .env file, if it exists
 
 # Create Lambda Client to connect with other lambdas internally
 lam = boto3.client('lambda')
 
 # Create Mongo Client
-client = MongoClient('mongodb+srv://reviewtrends:Vnso8hRWCI3wg077@cluster0.ujh40.mongodb.net/reviewTrendsDB?retryWrites=true&w=majority')
+client = MongoClient(env("MONGO_CLIENT_URL_REVIEWS_AND_TRENDS"))
 
 # Create SQS client
 # sqs = boto3.client('sqs')
@@ -28,6 +33,13 @@ def lambda_handler(event, context):
 	# Connect to collection
 	reviewsAndTrends = db.ReviewsAndTrends
 	# reviewsAndTrends = db[os.environ["COLLECTION_NAME"]]
+
+	# Make propertyId index unique. 
+	# I did it once, I guess there is no need in it anymore
+	# reviewsAndTrends.create_index(
+	# 	[("propertyId", 1)],
+    # 	unique=True
+	# )
 
 	# Get all property id's and their lastUpdated values
 	response_body = reviewsAndTrends.find( {}, { 'propertyId': 1, 'lastUpdated': 1, '_id': 0 } )
