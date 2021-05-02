@@ -38,7 +38,7 @@ def lambda_handler(event, context):
 	# I did it once, I guess there is no need in it anymore
 	# reviewsAndTrends.create_index(
 	# 	[("propertyId", 1)],
-    # 	unique=True
+    	# 	unique=True
 	# )
 
 	# Get all property id's and their lastUpdated values
