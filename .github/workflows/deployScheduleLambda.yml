@@ -44,6 +44,7 @@ jobs:
         uses: SpicyPizza/create-envfile@v1
         with:
           envkey_MONGO_CLIENT_URL_REVIEWS_AND_TRENDS: ${{ env.MONGO_CLIENT_URL_REVIEWS_AND_TRENDS }}
+          directory: /backend/scheduleDBupdate/app
           file_name: .env
 
       # Step 6     
