@@ -52,7 +52,7 @@ def lambda_handler(event, context):
 			print(document)
 			sendProcessingRequest(document["propertyId"], dateToString(document["lastUpdated"]))
 
-	# Version 2 - Put to Queue
+	# Version 2 - Put to Queue (need to create it first)
 #	for document in response_body:
 #		if 'lastUpdated' in document.keys() and (todaysDate - document["lastUpdated"]).days >= 7:
 			# push to queue
