@@ -11,7 +11,7 @@ from pymongo.collection import ReturnDocument
 lam = boto3.client('lambda')
 
 # Create Mongo Client
-client = MongoClient('mongodb+srv://reviewtrends:Vnso8hRWCI3wg077@cluster0.ujh40.mongodb.net/reviewTrendsDB?retryWrites=true&w=majority')
+client = MongoClient(env.MONGO_CLIENT_URL_REVIEWS_AND_TRENDS)
 
 # Create SQS client
 # sqs = boto3.client('sqs')
