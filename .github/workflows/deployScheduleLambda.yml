@@ -38,6 +38,15 @@ jobs:
       # Step 5
       - name: Activate and Install Depencies into Virtual env
         run: cd ./backend/scheduleDBupdate && python -m venv venv && source venv/bin/activate && pip3 install -r requirements.txt
+
+      # Step 5.1
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_MONGO_CLIENT_URL_REVIEWS_AND_TRENDS: ${{ env.MONGO_CLIENT_URL_REVIEWS_AND_TRENDS }}
+          directory: /backend/scheduleDBupdate/app
+          file_name: .env
+
       # Step 6     
       - name: Activate venv and Run Test        
         run: cd ./backend/scheduleDBupdate && . venv/bin/activate && cd ./app
