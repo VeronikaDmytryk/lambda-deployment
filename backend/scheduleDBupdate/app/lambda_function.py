@@ -12,6 +12,7 @@ from environs import Env
 env = Env()
 env.read_env()  # read .env file, if it exists
 
+
 # Create Lambda Client to connect with other lambdas internally
 lam = boto3.client('lambda')
 
