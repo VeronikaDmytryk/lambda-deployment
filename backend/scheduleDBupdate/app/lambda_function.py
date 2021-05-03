@@ -41,6 +41,7 @@ def lambda_handler(event, context):
     	# 	unique=True
 	# )
 
+
 	# Get all property id's and their lastUpdated values
 	response_body = reviewsAndTrends.find( {}, { 'propertyId': 1, 'lastUpdated': 1, '_id': 0 } )
 	
