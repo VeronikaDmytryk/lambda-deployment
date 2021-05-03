@@ -22,6 +22,7 @@ client = MongoClient(env("MONGO_CLIENT_URL_REVIEWS_AND_TRENDS"))
 # sqs = boto3.client('sqs')
 # queue = sqs.get_queue_by_name(QueueName='test')
 
+
 # Create Database
 db = client.reviewTrendsDB
 # db = client[os.environ["DB_NAME"]]
