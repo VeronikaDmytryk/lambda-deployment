@@ -63,9 +63,7 @@ def lambda_handler(event, context):
 			# 		'lastUpdated': document["lastUpdated"]
 			# 	}
 			# )
-			# print(response.get('Failed'))
-			
-			
+			# print(response.get('Failed'))			
 			
 	return {
 		'statusCode': 200
