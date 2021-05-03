@@ -8,6 +8,7 @@ from pymongo import MongoClient
 from pymongo.collection import ReturnDocument
 from environs import Env
 
+
 # Useful for hiding env variables which would be understood by github
 env = Env()
 env.read_env()  # read .env file, if it exists

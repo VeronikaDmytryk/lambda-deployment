@@ -44,7 +44,7 @@ jobs:
         run: |
           cd ./backend/scheduleDBupdate/app 
           touch .env
-          echo MONGO_CLIENT_URL_REVIEWS_AND_TRENDS= ${{ secrets.MONGO_CLIENT_URL_REVIEWS_AND_TRENDS }} >> .env
+          echo MONGO_CLIENT_URL_REVIEWS_AND_TRENDS=${{secretd.MONGO_CLIENT_URL_REVIEWS_AND_TRENDS}} >> .env
           cat .env
 
       # Step 5.2 
