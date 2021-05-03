@@ -40,19 +40,11 @@ jobs:
         run: cd ./backend/scheduleDBupdate && python -m venv venv && source venv/bin/activate && pip3 install -r requirements.txt
 
       # Step 5.1
-      - name: Make envfile
-        uses: SpicyPizza/create-envfile@v1
-        with:
-          envkey_MONGO_CLIENT_URL_REVIEWS_AND_TRENDS: ${{ env.MONGO_CLIENT_URL_REVIEWS_AND_TRENDS }}
-          directory: ./backend/scheduleDBupdate/app
-          file_name: .env
-
       - name: Create env file
         run: |
           cd ./backend/scheduleDBupdate/app 
           touch .env
-          echo API_ENDPOINT="https://xxx.execute-api.us-west-2.amazonaws.com" >> .env
-          echo API_KEY=smt >> .env
+          echo MONGO_CLIENT_URL_REVIEWS_AND_TRENDS=${{env.MONGO_CLIENT_URL_REVIEWS_AND_TRENDS}} >> .env
           cat .env
 
       # Step 5.2 
