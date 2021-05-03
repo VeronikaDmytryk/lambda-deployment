@@ -65,6 +65,7 @@ def lambda_handler(event, context):
 			# )
 			# print(response.get('Failed'))			
 			
+			
 	return {
 		'statusCode': 200
 	}

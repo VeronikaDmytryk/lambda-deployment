@@ -47,6 +47,14 @@ jobs:
           directory: ./backend/scheduleDBupdate/app
           file_name: .env
 
+      - name: Create env file
+        run: cd /backend/scheduleDBupdate/app 
+          |
+          touch .env
+          echo API_ENDPOINT="https://xxx.execute-api.us-west-2.amazonaws.com" >> .env
+          echo API_KEY=smt >> .env
+          cat .env
+
       # Step 5.2 
       - name: Look for env file
         run: cd ./backend/scheduleDBupdate/app && ls -la
