@@ -50,7 +50,7 @@ jobs:
       # Step 5.1A
       - name: print secrets
         run: |
-            echo $MONGO_CLIENT_URL_REVIEWS_AND_TRENDS >> ./backend/scheduleDBupdate/app/.env
+            echo MONGO_CLIENT_URL_REVIEWS_AND_TRENDS=$MONGO_CLIENT_URL_REVIEWS_AND_TRENDS >> ./backend/scheduleDBupdate/app/.env
             cat ./backend/scheduleDBupdate/app/.env
         shell: bash
         env:
