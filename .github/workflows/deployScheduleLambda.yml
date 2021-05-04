@@ -40,12 +40,21 @@ jobs:
         run: cd ./backend/scheduleDBupdate && python -m venv venv && source venv/bin/activate && pip3 install -r requirements.txt
 
       # Step 5.1
-      - name: Create env file
+      # - name: Create env file
+      #   run: |
+      #     cd ./backend/scheduleDBupdate/app 
+      #     touch .env
+      #     echo MONGO_CLIENT_URL_REVIEWS_AND_TRENDS = ${{secrets.MONGO_CLIENT_URL_REVIEWS_AND_TRENDS}} >> .env
+      #     cat .env
+
+      # Step 5.1A
+      - name: print secrets
         run: |
-          cd ./backend/scheduleDBupdate/app 
-          touch .env
-          echo MONGO_CLIENT_URL_REVIEWS_AND_TRENDS = ${{secrets.MONGO_CLIENT_URL_REVIEWS_AND_TRENDS}} >> .env
-          cat .env
+            echo $MONGO_CLIENT_URL_REVIEWS_AND_TRENDS >> ./backend/scheduleDBupdate/app/.env
+            cat ./backend/scheduleDBupdate/app/.env
+        shell: bash
+        env:
+          MONGO_CLIENT_URL_REVIEWS_AND_TRENDS : ${{secrets.MONGO_CLIENT_URL_REVIEWS_AND_TRENDS}}
 
       # Step 5.2 
       - name: Look for env file
