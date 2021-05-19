@@ -1,12 +1,14 @@
-name: CI/CD Pipeline
+name: CI/CD Pipeline for updateDB
 
 on:
   push:
     paths:
-    - 'backend/scheduleDBupdate/**'
-
-    branches: [ main ]
-
+    - 'backend/updateDB/**'
+    branches: [ main, develop ]
+  pull_request:
+    paths:
+    - 'backend/updateDB/**'
+    branches: [ main, develop ]
 
 jobs:
 
@@ -32,50 +34,51 @@ jobs:
         id: cache-venv
         with:
           path: venv
-          key: ${{ runner.os }}-venv-${{ hashFiles('**/backend/scheduleDBupdate/requirements*.txt') }}
+          key: ${{ runner.os }}-venv-${{ hashFiles('**/backend/updateDB/requirements*.txt') }}
           restore-keys: |
             ${{ runner.os }}-venv-
       # Step 5
       - name: Activate and Install Depencies into Virtual env
-        run: cd ./backend/scheduleDBupdate && python -m venv venv && source venv/bin/activate && pip3 install -r requirements.txt
+        run: cd ./backend/updateDB && python -m venv venv && source venv/bin/activate && pip3 install -r requirements.txt
 
       # Step 5.1
       - name: Create env file
         run: |
-            echo MONGO_CLIENT_URL_REVIEWS_AND_TRENDS=$MONGO_CLIENT_URL_REVIEWS_AND_TRENDS >> ./backend/scheduleDBupdate/app/.env
-            cat ./backend/scheduleDBupdate/app/.env
+            echo MONGO_CLIENT_URL_REVIEWS_AND_TRENDS=$MONGO_CLIENT_URL_REVIEWS_AND_TRENDS >> ./backend/updateDB/app/.env
+            echo PROPERTIES_TO_PROCESS_QUEUE=$PROPERTIES_TO_PROCESS_QUEUE >> ./backend/updateDB/app/.env
+            cat ./backend/updateDB/app/.env
         shell: bash
         env:
           MONGO_CLIENT_URL_REVIEWS_AND_TRENDS : ${{secrets.MONGO_CLIENT_URL_REVIEWS_AND_TRENDS}}
+          PROPERTIES_TO_PROCESS_QUEUE : ${{secrets.PROPERTIES_TO_PROCESS_QUEUE}}
 
       # Step 5.2 
       - name: Look for env file
-        run: cd ./backend/scheduleDBupdate/app && ls -la
+        run: cd ./backend/updateDB/app && ls -la
 
       # Step 6     
       - name: Activate venv and Run Test        
-        run: cd ./backend/scheduleDBupdate && . venv/bin/activate
+        run: cd ./backend/updateDB && . venv/bin/activate
       
       # Step 7
       - name: Create Zipfile archive of Dependencies
         run: |
-          cd ./backend/scheduleDBupdate/venv/lib/python3.7/site-packages
-          zip -r9 ../../../../../../scheduleDBupdate.zip .
+          cd ./backend/updateDB/venv/lib/python3.7/site-packages
+          zip -r9 ../../../../../../updateDB.zip .
       
       # Step 8
       - name: Add App to Zip file
-        run: cd ./backend/scheduleDBupdate/app && zip -g ../../../scheduleDBupdate.zip -r .
+        run: cd ./backend/updateDB/app && zip -g ../../../updateDB.zip -r .
       
       # Step 9
       - name: Upload zip file artifact
         uses: actions/upload-artifact@v2
         with:
-          name: scheduleDBupdate
-          path: scheduleDBupdate.zip
+          name: updateDB
+          path: updateDB.zip
   continuous-deployment:
     runs-on: ubuntu-latest
     needs: [continuous-integration]
-    if: github.ref == 'refs/heads/main'
     steps:
       # Step 1
       - name: Install AWS CLI
@@ -88,21 +91,21 @@ jobs:
           AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
       # Step 2
-      - name: Download Lambda scheduleDBupdate.zip
+      - name: Download Lambda updateDB.zip
         uses: actions/download-artifact@v2
         with:
-          name: scheduleDBupdate
-      # Step 3
+          name: updateDB
+      # Step 3 - would need to update
       - name: Upload to S3
-        run: aws s3 cp scheduleDBupdate.zip s3://schedule-db-update/scheduleDBupdate.zip
+        run: aws s3 cp updateDB.zip s3://update-db-bucket/updateDB.zip
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
-      # Step 4
+      # Step 4 - would need to update
       - name: Deploy new Lambda
-        run: aws lambda update-function-code --function-name scheduleDBupdate --s3-bucket schedule-db-update --s3-key scheduleDBupdate.zip
+        run: aws lambda update-function-code --function-name updateDB --s3-bucket update-db-bucket --s3-key updateDB.zip
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
